@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CardService } from 'src/application/service/crater/seed-crater.service';
+import { SeedCraterService } from 'src/application/service/seed-crater.service';
 import { Crater, CratersSchema } from 'src/domain/schema/crater.schema';
 import { CraterRepository } from '../repository/crater.repository';
 
@@ -9,7 +9,7 @@ import { CraterRepository } from '../repository/crater.repository';
     MongooseModule.forFeature([{ name: Crater.name, schema: CratersSchema }])
   ],
   controllers: [],
-  providers: [CardService, CraterRepository],
-  exports: [CardService]
+  providers: [SeedCraterService, CraterRepository],
+  exports: []
 })
 export class CardModule {}

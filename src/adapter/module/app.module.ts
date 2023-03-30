@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import configuration from '../config/configuration';
-import { MatchModule } from './match.module';
 
 @Module({
   imports: [
@@ -16,8 +15,7 @@ import { MatchModule } from './match.module';
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration]
-    }),
-    MatchModule
+    })
   ],
   controllers: [],
   providers: []

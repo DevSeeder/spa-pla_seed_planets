@@ -3,11 +3,11 @@ import { SeedCraterService } from '../../application/service/seed-crater.service
 
 @Controller()
 export class CraterController {
-  constructor(private readonly craterService: SeedCraterService) {}
+  constructor(private readonly seedCraterService: SeedCraterService) {}
 
-  @Post('/play')
-  async playMatch(): Promise<any> {
-    const response = await this.craterService.playMatch();
+  @Post('seed/crater')
+  async seedCrater(): Promise<any> {
+    const response = await this.seedCraterService.seed();
     return response;
   }
 }
