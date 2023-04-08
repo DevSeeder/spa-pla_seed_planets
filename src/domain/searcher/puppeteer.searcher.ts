@@ -2,7 +2,7 @@ import { Logger } from '@nestjs/common';
 import * as cheerio from 'cheerio';
 import { CheerioAPI } from 'cheerio';
 import { Page } from 'puppeteer';
-import { PuppeteerService } from 'src/application/service/crater/puppeteer.service';
+import { PuppeteerService } from 'src/application/service/puppeteer/puppeteer.service';
 
 export abstract class AbstractPuppeteerSearcher {
   protected readonly logger: Logger = new Logger(this.constructor.name);
@@ -17,6 +17,6 @@ export abstract class AbstractPuppeteerSearcher {
   }
 
   validateInput(searchParams) {
-    searchParams.validateIsAnyEmptyKey();
+    // searchParams.validateIsAnyEmptyKey();
   }
 }

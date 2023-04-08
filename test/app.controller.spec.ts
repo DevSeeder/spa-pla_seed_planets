@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CraterController } from '../src/adapter/controller/crater.controller';
-import { SeedCraterService } from '../src/application/service/seed-crater.service';
+import { SeedCraterService } from '../src/application/service/seed/seed-crater.service';
 
 describe('AppController', () => {
   let appController: CraterController;

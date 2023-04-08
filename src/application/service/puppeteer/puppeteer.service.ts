@@ -20,7 +20,7 @@ export class PuppeteerService extends AbstractService {
 
   private setPuppeteer() {
     this.puppeteer = puppeteer;
-    this.puppeteer.use(StealthPlugin());
+    // this.puppeteer.use(StealthPlugin());
   }
 
   private async collectData(page: Page, url: string) {

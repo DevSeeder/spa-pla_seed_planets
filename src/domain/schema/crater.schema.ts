@@ -12,6 +12,9 @@ export class Crater extends Feature {
 
   @Prop({ required: false })
   idMainCrater: string;
+
+  @Prop({ required: false })
+  satCraters: string[];
 }
 
 const schema = SchemaFactory.createForClass(Crater);

@@ -1,13 +1,15 @@
-import { NotFoundException } from '@nestjs/common';
+import { Logger, NotFoundException } from '@nestjs/common';
 import { CheerioAPI } from 'cheerio';
-import { PuppeteerService } from 'src/application/service/crater/puppeteer.service';
+import { PuppeteerService } from 'src/application/service/puppeteer/puppeteer.service';
 import { AbstractPuppeteerSearcher } from './puppeteer.searcher';
 
 export abstract class PuppeteerFeatureSearcher<
-  ElementPlace,
+  ElementFeature,
   SearchElement,
   ValidOutputSearch
 > extends AbstractPuppeteerSearcher {
+  protected readonly logger: Logger;
+
   constructor(
     protected url: string,
     protected puppeteerService: PuppeteerService,
@@ -17,9 +19,9 @@ export abstract class PuppeteerFeatureSearcher<
   }
 
   async getElements(
-    searchParams: SearchElement,
-    convertedSearch: ValidOutputSearch
-  ): Promise<ElementPlace[]> {
+    searchParams?: SearchElement,
+    convertedSearch?: ValidOutputSearch
+  ): Promise<ElementFeature[]> {
     this.validateInput(searchParams);
 
     const $ = await this.callEndpoint(searchParams, convertedSearch);
@@ -34,7 +36,7 @@ export abstract class PuppeteerFeatureSearcher<
     return elements;
   }
 
-  validateOutput(output: ElementPlace[]): void {
+  validateOutput(output: ElementFeature[]): void {
     if (output.length === 0) throw new NotFoundException(this.elementName);
   }
 
@@ -42,7 +44,7 @@ export abstract class PuppeteerFeatureSearcher<
     _searchParams: SearchElement,
     convertedSearch: ValidOutputSearch,
     _$: CheerioAPI
-  ): Promise<ElementPlace[]>;
+  ): Promise<ElementFeature[]>;
 
   abstract callEndpoint(
     _searchParams: SearchElement,
