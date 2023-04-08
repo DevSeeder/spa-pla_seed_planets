@@ -6,7 +6,8 @@ export class Coordinate {
   long: number;
 }
 
-export abstract class Feature {
+@Schema({ timestamps: true, collection: 'features' })
+export class Feature {
   @Prop({ required: true })
   wikiId: string;
 
@@ -18,6 +19,9 @@ export abstract class Feature {
 
   @Prop({ required: true })
   refType: string;
+
+  @Prop({ required: true })
+  featureType: string;
 
   @Prop({ required: true })
   name: string;

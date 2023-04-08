@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-this-alias */
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { CheerioAPI } from 'cheerio';
 import { PuppeteerService } from 'src/application/service/puppeteer/puppeteer.service';
-import { Crater } from 'src/domain/schema/crater.schema';
+import { Feature } from 'src/domain/schema/feature.schema';
 import { PuppeteerFeatureSearcher } from 'src/domain/searcher/puppeteer-feature.searcher';
 
 @Injectable()
@@ -31,24 +32,23 @@ export abstract class PlanetaryNamesSearcher<
     _convertedSearch: any,
     $: CheerioAPI
   ): Promise<any[]> {
+    const context = this;
     const arr = [];
     const cfgService = this.configService;
-    const logger = this.logger;
-    const source = this.source;
-    const elementName = this.elementName;
 
     const raws = $('#results_body').find('tr.hover-highlight');
 
-    this.logger.log(`Total found: ${raws}`);
+    this.logger.log(`Total found: ${raws.length}`);
 
     raws.each(function () {
-      const crater = new Crater();
-      crater.wikiId = cfgService.get<string>('searcher.moon.wikiId');
-      crater.wikiTable = cfgService.get<string>('searcher.moon.wikiTable');
-      crater.refName = cfgService.get<string>('searcher.moon.refName');
-      crater.refType = cfgService.get<string>('searcher.moon.refType');
-      crater.name = $(this).find('.cleanFeatureNameColumn').text();
-      crater.coordinates = {
+      const feature = new Feature();
+      feature.wikiId = cfgService.get<string>('searcher.moon.wikiId');
+      feature.wikiTable = cfgService.get<string>('searcher.moon.wikiTable');
+      feature.refName = cfgService.get<string>('searcher.moon.refName');
+      feature.refType = cfgService.get<string>('searcher.moon.refType');
+      feature.featureType = context.elementName;
+      feature.name = $(this).find('.cleanFeatureNameColumn').text();
+      feature.coordinates = {
         lat: Number(
           $(this)
             .find('.centerLatLonColumn')
@@ -66,26 +66,26 @@ export abstract class PlanetaryNamesSearcher<
             .replaceAll('\n', '')
         )
       };
-      crater.quad = $(this)
+      feature.quad = $(this)
         .find('.quadColumn')
         .text()
         .replaceAll(' ', '')
         .replaceAll('\n', '');
       const addInfo = $(this).find('.additionalInfoColumn').text();
-      crater.additionalInfo = addInfo.length > 0 ? [addInfo] : [];
-      crater.externalIds = [
+      feature.additionalInfo = addInfo.length > 0 ? [addInfo] : [];
+      feature.externalIds = [
         {
           id: $(this).find('.featureIDColumn').text(),
-          source
+          source: context.source
         }
       ];
-      crater.alias = [crater.name];
-      crater.idRegion = null;
-      crater.idParent = null;
-      logger.log(
-        `${elementName} "${crater.name}" [${crater.externalIds[0].id}]`
+      feature.alias = [feature.name];
+      feature.idRegion = null;
+      feature.idParent = null;
+      context.logger.log(
+        `${context.elementName} "${feature.name}" [${feature.externalIds[0].id}]`
       );
-      arr.push(crater);
+      arr.push(context.fillFeature($(this), feature));
     });
 
     return arr;
@@ -96,5 +96,5 @@ export abstract class PlanetaryNamesSearcher<
     return this.getDocumentHtml(this.url);
   }
 
-  abstract fillFeature(el, crater: ElementFeature): ElementFeature;
+  abstract fillFeature(el, feature: Feature): ElementFeature;
 }
