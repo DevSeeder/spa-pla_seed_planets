@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import configuration from '../config/configuration';
-import { CraterModule } from './crater.module';
 import { SeedModule } from './seed.module';
+import { CraterModule } from './crater.module';
 
 @Module({
   imports: [
@@ -18,7 +18,6 @@ import { SeedModule } from './seed.module';
       isGlobal: true,
       load: [configuration]
     }),
-    CraterModule,
     SeedModule
   ],
   controllers: [],
