@@ -1,17 +1,17 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { CraterController } from '../src/adapter/controller/crater.controller';
-import { SeedCraterService } from '../src/application/service/seed/seed-crater.service';
+import { SeedController } from '../src/adapter/controller/seed.controller';
+import { SeedCraterService } from '../src/application/service/seed/features/seed-crater.service';
 
 describe('AppController', () => {
-  let appController: CraterController;
+  let appController: SeedController;
 
   beforeEach(async () => {
     const app: TestingModule = await Test.createTestingModule({
-      controllers: [CraterController],
+      controllers: [SeedController],
       providers: [SeedCraterService]
     }).compile();
 
-    appController = app.get<CraterController>(CraterController);
+    appController = app.get<SeedController>(SeedController);
   });
 
   describe('root', () => {

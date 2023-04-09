@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Prop, Schema } from '@nestjs/mongoose';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
+
+export type FeatureDocument = Feature & Document;
 
 export class Coordinate {
   lat: number;
   long: number;
 }
 
-@Schema({ timestamps: true, collection: 'features' })
 export class Feature {
   @Prop({ required: true })
   wikiId: string;
@@ -36,7 +38,7 @@ export class Feature {
   additionalInfo: string[];
 
   @Prop({ required: false })
-  externalIds: ExternalId[];
+  externalRef: ExternalReference[];
 
   @Prop({ required: false })
   alias: string[];
@@ -48,7 +50,9 @@ export class Feature {
   idParent: string;
 }
 
-export interface ExternalId {
+export interface ExternalReference {
   source: string;
+  link: string;
+  fields: string[];
   id: string;
 }

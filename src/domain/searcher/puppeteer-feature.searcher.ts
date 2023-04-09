@@ -21,7 +21,7 @@ export abstract class PuppeteerFeatureSearcher<
   async getElements(
     searchParams?: SearchElement,
     convertedSearch?: ValidOutputSearch
-  ): Promise<ElementFeature[]> {
+  ): Promise<ElementFeature[] | ElementFeature> {
     this.validateInput(searchParams);
 
     const $ = await this.callEndpoint(searchParams, convertedSearch);
@@ -36,18 +36,23 @@ export abstract class PuppeteerFeatureSearcher<
     return elements;
   }
 
-  validateOutput(output: ElementFeature[]): void {
-    if (output.length === 0) throw new NotFoundException(this.elementName);
+  validateOutput(output: ElementFeature[] | ElementFeature): void {
+    if (Array.isArray(output) && output.length === 0)
+      throw new NotFoundException(this.elementName);
   }
 
   abstract buildElementsFromDocument(
     _searchParams: SearchElement,
     convertedSearch: ValidOutputSearch,
     _$: CheerioAPI
-  ): Promise<ElementFeature[]>;
+  ): Promise<ElementFeature[] | ElementFeature>;
 
-  abstract callEndpoint(
-    _searchParams: SearchElement,
+  async callEndpoint(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _searchParams?: SearchElement,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _convertedSearch?: ValidOutputSearch
-  ): Promise<CheerioAPI>;
+  ): Promise<CheerioAPI> {
+    return this.getDocumentHtml(this.url);
+  }
 }

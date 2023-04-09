@@ -15,6 +15,12 @@ searcher:
     refType: 'moon'
     url:
       crater: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=9_Crater,%20craters'
+      rima: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=37_Rima,%20rimae'
+      sinus: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=40_Sinus,%20sin%C5%ABs'
+      rupes: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=38_Rupes,%20rup%C4%93s'
+      dorsa: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=10_Dorsum,%20dorsa'
+      mons: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=27_Mons,%20montes'
+      height-mons: 'https://www.wikiwand.com/en/List_of_mountains_on_the_Moon'
 api:
   port: ${API_PORT}
 doc:
