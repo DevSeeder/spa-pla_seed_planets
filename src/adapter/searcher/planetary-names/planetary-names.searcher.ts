@@ -104,5 +104,5 @@ export abstract class PlanetaryNamesSearcher<
     return arr;
   }
 
-  abstract fillFeature(el, feature: Feature): ElementFeature;
+  abstract fillFeature(el, feature: Feature): ElementFeature | any;
 }

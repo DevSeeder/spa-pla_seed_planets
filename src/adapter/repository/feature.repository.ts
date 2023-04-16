@@ -3,7 +3,7 @@ import { Model } from 'mongoose';
 import { MongooseRepository } from '@devseeder/nestjs-microservices-commons';
 
 @Injectable()
-export abstract class FeatureRepository<
+export class FeatureRepository<
   ElementFeature,
   FeatureDocument
 > extends MongooseRepository<ElementFeature, FeatureDocument> {

@@ -21,14 +21,15 @@ export abstract class SeedFeatureService<
     private readonly elementName: string
   ) {}
 
-  async seed(): Promise<any> {
+  async seed(featureType = true): Promise<any> {
     const features = await this.searcher.getElements();
     for await (let feature of features as ElementFeature[]) {
       feature.name = feature.name.replace('[', '').replace(']', '');
-      const featureFound = await this.repository.find({
-        name: feature.name,
-        featureType: this.elementName
-      });
+      const objFilter = { name: feature.name };
+
+      if (featureType) objFilter['featureType'] = this.elementName;
+
+      const featureFound = await this.repository.find(objFilter);
 
       if (featureFound.length > 0) {
         this.logger.warn(
@@ -38,9 +39,13 @@ export abstract class SeedFeatureService<
       }
 
       feature = await this.findMoreInfo(feature);
-      await this.repository.insert(feature, this.elementName, feature.name);
+      // await this.save(feature);
     }
     return features;
+  }
+
+  async save(feature: ElementFeature): Promise<void> {
+    await this.repository.insert(feature, this.elementName, feature.name);
   }
 
   async findMoreInfo(feature: ElementFeature): Promise<ElementFeature> {

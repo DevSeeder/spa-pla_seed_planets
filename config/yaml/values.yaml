@@ -21,6 +21,14 @@ searcher:
       dorsa: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=10_Dorsum,%20dorsa'
       mons: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=27_Mons,%20montes'
       height-mons: 'https://www.wikiwand.com/en/List_of_mountains_on_the_Moon'
+      catena: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=3_Catena,%20catenae'
+      lacus: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=19_Lacus,%20lac%C5%ABs'
+      promontorium: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=34_Promontorium,%20promontoria'
+      vallis: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=46_Vallis,%20valles'
+      mare: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=25_Mare,%20maria'
+      landing-site: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=20_Landing%20site%20name'
+      feature: 'https://planetarynames.wr.usgs.gov/Feature'
+      sat: 'https://planetarynames.wr.usgs.gov/SearchResults?Target=16_Moon&Feature%20Type=52_Satellite%20Feature'
 api:
   port: ${API_PORT}
 doc:

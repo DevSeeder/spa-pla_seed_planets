@@ -3,25 +3,22 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { Feature } from './feature.schema';
 
-export type MonsDocument = Mons & Document;
+export type VallisDocument = Vallis & Document;
 
 @Schema({ timestamps: true, collection: 'features' })
-export class Mons extends Feature {
+export class Vallis extends Feature {
   @Prop({ required: false })
   diameter: number;
 
   @Prop({ required: false })
-  height: number;
-
-  @Prop({ required: false })
-  idMainMons: string;
+  idMainVallis: string;
 }
 
-const schema = SchemaFactory.createForClass(Mons);
+const schema = SchemaFactory.createForClass(Vallis);
 
 schema.index(
   { name: 1, wikiId: 1, wikiTable: 1, featureType: 1 },
   { unique: true }
 );
 
-export const MonsSchema = schema;
+export const VallisSchema = schema;
