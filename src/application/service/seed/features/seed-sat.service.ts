@@ -27,51 +27,63 @@ export class SeedSatService extends SeedFeatureService<
   }
 
   async findMoreInfo(feature: any): Promise<any> {
+    let saveFeature = { ...feature };
     this.logger.log(`Searching parent for "${feature.name}"`);
 
     const parentName = this.getParentName(feature.name, feature.refParent);
     this.logger.log(`Parent name: ${parentName}`);
-    const parent = await this.featureRepository.find({
-      $or: [
-        {
-          name: parentName
-        },
-        {
-          alias: parentName
-        }
-      ]
-    });
+    const parent = await this.featureRepository.find(
+      {
+        $or: [
+          {
+            name: parentName
+          },
+          {
+            alias: parentName
+          }
+        ]
+      },
+      {
+        _id: 1,
+        name: 1,
+        featureType: 1
+      }
+    );
+
+    console.log(parent);
 
     if (parent.length === 0)
       throw new Error(`Not found parent crater for "${feature.name}"`);
 
     this.logger.log(`featureType: ${parent[0].featureType}`);
 
+    const idParent = parent[0]._id.toString();
+
     switch (parent[0].featureType) {
       case 'Crater':
-        feature = feature as Crater;
-        feature.idMainCrater = parent[0]._id;
+        saveFeature = saveFeature as Crater;
+        saveFeature.idMainCrater = idParent;
         break;
       case 'Montes':
       case 'Mons':
-        feature = feature as Mons;
-        feature.idMainMons = parent[0]._id;
+        saveFeature = saveFeature as Mons;
+        saveFeature.idMainMons = idParent;
         break;
       case 'Rupes':
-        feature = feature as Rupes;
-        feature.idMainRupes = parent[0]._id;
+        saveFeature = saveFeature as Rupes;
+        saveFeature.idMainRupes = idParent;
         break;
       case 'Rima':
-        feature = feature as Rima;
-        feature.idMainRima = parent[0]._id;
+        saveFeature = saveFeature as Rima;
+        saveFeature.idMainRima = idParent;
         break;
       case 'Vallis':
-        feature = feature as Vallis;
-        feature.idMainVallis = parent[0]._id;
+        saveFeature = saveFeature as Vallis;
+        saveFeature.idMainVallis = idParent;
         break;
       case 'Promontorium':
-        feature = feature as Promontorium;
-        feature.idMainPromontorium = parent[0]._id;
+        saveFeature = saveFeature as Promontorium;
+        saveFeature.idMainPromontorium = idParent;
         break;
       default:
         throw new Error(
@@ -79,11 +91,13 @@ export class SeedSatService extends SeedFeatureService<
         );
     }
 
-    feature.idParent = parent[0].idParent;
-    feature.featureType = parent[0].featureType;
-    feature.additionalInfo.push('Satellite');
+    // saveFeature.idParent = idParent;
+    saveFeature.featureType = parent[0].featureType;
+    saveFeature.additionalInfo.push('Satellite');
 
-    return feature;
+    console.log(saveFeature);
+
+    return saveFeature;
   }
 
   private getParentName(name: string, origin: string): string {

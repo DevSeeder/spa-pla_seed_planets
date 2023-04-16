@@ -39,7 +39,7 @@ export abstract class SeedFeatureService<
       }
 
       feature = await this.findMoreInfo(feature);
-      // await this.save(feature);
+      await this.save(feature);
     }
     return features;
   }
