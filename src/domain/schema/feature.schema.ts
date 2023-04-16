@@ -9,6 +9,7 @@ export class Coordinate {
   long: number;
 }
 
+@Schema({ timestamps: true, collection: 'features' })
 export class Feature {
   @Prop({ required: true })
   wikiId: string;
@@ -56,3 +57,12 @@ export interface ExternalReference {
   fields: string[];
   id: string;
 }
+
+const schema = SchemaFactory.createForClass(Feature);
+
+schema.index(
+  { name: 1, wikiId: 1, wikiTable: 1, featureType: 1 },
+  { unique: true }
+);
+
+export const FeatureSchema = schema;

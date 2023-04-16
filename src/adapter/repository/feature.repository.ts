@@ -1,13 +1,21 @@
 import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
-import { MongooseRepository } from '@devseeder/nestjs-microservices-commons';
+import {
+  MongooseDocumentID,
+  MongooseRepository
+} from '@devseeder/nestjs-microservices-commons';
+import { Feature } from 'src/domain/schema/feature.schema';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class FeatureRepository<
   ElementFeature,
   FeatureDocument
 > extends MongooseRepository<ElementFeature, FeatureDocument> {
-  constructor(model: Model<FeatureDocument>) {
+  constructor(
+    @InjectModel(Feature.name)
+    model: Model<FeatureDocument>
+  ) {
     super(model);
   }
 
@@ -29,5 +37,17 @@ export class FeatureRepository<
     search: Partial<FeatureDocument>
   ): Promise<ElementFeature[]> {
     return this.model.find(search);
+  }
+
+  async updateOneById(id: MongooseDocumentID, data: any): Promise<void> {
+    await this.model.findOneAndUpdate(
+      {
+        _id: id
+      },
+      {
+        $set: data
+      },
+      { upsert: false }
+    );
   }
 }

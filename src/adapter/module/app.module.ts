@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import configuration from '../config/configuration';
 import { SeedModule } from './seed.module';
+import { LinkModule } from './link.module';
 
 @Module({
   imports: [
@@ -17,7 +18,8 @@ import { SeedModule } from './seed.module';
       isGlobal: true,
       load: [configuration]
     }),
-    SeedModule
+    SeedModule,
+    LinkModule
   ],
   controllers: [],
   providers: []
